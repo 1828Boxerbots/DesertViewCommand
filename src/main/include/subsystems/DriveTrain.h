@@ -18,7 +18,7 @@ using namespace frc;
 class DriveTrain : public frc::Subsystem {
  private:
 
-  Spark m_leftMotor {LEFTDRIVE};
+  Spark m_leftMotor  {LEFTDRIVE };
   Spark m_rightMotor {RIGHTDRIVE};
 
   ADXRS450_Gyro m_gyro {SPI::Port::kOnboardCS0};

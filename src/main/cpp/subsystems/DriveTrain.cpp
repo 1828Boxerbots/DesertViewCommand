@@ -21,6 +21,9 @@ void DriveTrain::TeleopDrive(XboxController* controller)
 
   m_leftMotor.Set(0.5*leftY);
   m_rightMotor.Set(-0.5*rightY);
+
+  double angleOof = m_gyro.GetAngle();
+  SmartDashboard::PutNumber("Don't break please", angleOof);
 }
 
 void DriveTrain::StopDriveMotors()
