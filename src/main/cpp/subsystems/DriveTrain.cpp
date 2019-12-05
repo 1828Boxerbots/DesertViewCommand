@@ -24,6 +24,13 @@ void DriveTrain::TeleopDrive(XboxController* controller)
 
   double angleOof = m_gyro.GetAngle();
   SmartDashboard::PutNumber("Don't break please", angleOof);
+
+  double ultraValue = m_US.GetVoltage();
+  SmartDashboard::PutNumber("Ultrasonic Value", ultraValue);
+  const double voltToMeter = (4.885/5);
+  const int calibration = 3;
+  double distance = ultraValue * voltToMeter * calibration;
+  SmartDashboard::PutNumber("Ultrasonic Distance", distance);
 }
 
 void DriveTrain::StopDriveMotors()

@@ -12,6 +12,7 @@
 #include <frc/XboxController.h>
 #include <frc/ADXRS450_Gyro.h>
 #include "RobotMap.h"
+#include <frc/AnalogInput.h>
 
 using namespace frc;
 
@@ -22,6 +23,7 @@ class DriveTrain : public frc::Subsystem {
   Spark m_rightMotor {RIGHTDRIVE};
 
   ADXRS450_Gyro m_gyro {SPI::Port::kOnboardCS0};
+  AnalogInput m_US {ULTRASONIC};
 
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities

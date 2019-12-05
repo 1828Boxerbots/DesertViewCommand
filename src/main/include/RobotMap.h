@@ -13,3 +13,6 @@ constexpr int LEFTDRIVE = 2;
 
 //USB
 constexpr int XBOXCONTROLLER_USB = 0;
+
+//ANALOG
+constexpr int ULTRASONIC = 3;
