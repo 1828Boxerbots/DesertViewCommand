@@ -31,6 +31,8 @@ void DriveTrain::TeleopDrive(XboxController* controller)
   const int calibration = 3;
   double distance = ultraValue * voltToMeter * calibration;
   SmartDashboard::PutNumber("Ultrasonic Distance", distance);
+
+  
 }
 
 void DriveTrain::StopDriveMotors()
