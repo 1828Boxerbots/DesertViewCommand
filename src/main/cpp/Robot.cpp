@@ -1,4 +1,4 @@
-  /*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 /* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
@@ -7,17 +7,15 @@
 
 #include "Robot.h"
 
-#include <iostream>
-
+#include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-using namespace frc;
+std::shared_ptr <DriveTrain> Robot::m_driveTrain = std::make_shared<DriveTrain>();
 
-void Robot::RobotInit() 
-{
-  m_right.SetInverted(true);
-  m_leftEncoder.Reset();
-  m_rightEncoder.Reset();
+OI Robot::m_oi;
+
+void Robot::RobotInit() {
+ frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
 /**
@@ -28,64 +26,55 @@ void Robot::RobotInit()
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() {}
+void Robot::RobotPeriodic() 
+{
+
+}
+
+/**
+ * This function is called once each time the robot enters Disabled mode. You
+ * can use it to reset any subsystem information you want to clear when the
+ * robot is disabled.
+ */
+void Robot::DisabledInit() 
+{
+
+}
+
+void Robot::DisabledPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 
 /**
  * This autonomous (along with the chooser code above) shows how to select
  * between different autonomous modes using the dashboard. The sendable chooser
  * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
- * remove all of the chooser code and uncomment the GetString line to get the
+ * remove all of the chooser code and uncomment the GetString code to get the
  * auto name from the text box below the Gyro.
  *
- * You can add additional auto modes by adding additional comparisons to the
- * if-else structure below with additional strings. If using the SendableChooser
- * make sure to add them to the chooser code above as well.
+ * You can add additional auto modes by adding additional commands to the
+ * chooser code above (like the commented example) or additional comparisons to
+ * the if-else structure below with additional strings & commands.
  */
 void Robot::AutonomousInit() {
-  
-
- 
+  // std::string autoSelected = frc::SmartDashboard::GetString(
+  //     "Auto Selector", "Default");
+  // if (autoSelected == "My Auto") {
+  //   m_autonomousCommand = &m_myAuto;
+  // } else {
+  //   m_autonomousCommand = &m_defaultAuto;
+  // }
 }
 
-void Robot::AutonomousPeriodic() {
-  
-}
+void Robot::AutonomousPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 
 void Robot::TeleopInit() {
-  //set the motor to make them stop when it start up
-  m_right.Set(0.0);
-  m_left.Set(0.0);
+  // This makes sure that the autonomous stops running when
+  // teleop starts running. If you want the autonomous to
+  // continue until interrupted by another command, remove
+  // this line or comment it out.
+  m_driveTrainCMD.Start();
 }
 
-void Robot::TeleopPeriodic() 
-{
-  //checking if in telop and the robot is enable
-  while(IsOperatorControl() && IsEnabled())
-  {
-    //taking the X and Y form the left joystick on the xbox controller 
-      double X = m_controller.GetX(frc::GenericHID::kLeftHand);
-      double Y = m_controller.GetY(frc::GenericHID::kLeftHand);
-
-    //set the motors speeds for the left and right motors
-      m_left.Set(Y-X);
-      m_right.Set(Y+X);
-
-    //getting the encoders values
-      double lefttick = m_leftEncoder.Get();
-      double righttick = m_rightEncoder.Get();
-
-    
-    //sending the encoders vaules to smartdashboard
-      SmartDashboard::PutNumber("left tick", -1 * lefttick);
-      SmartDashboard::PutNumber("right tick",righttick);   
-  }
-  //stoping the motor when diver disabled the robot
-  if(IsDisabled())
-  {
-    m_left.Set(0.0);
-    m_right.Set(0.0);
-  }
-}
+void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 
 void Robot::TestPeriodic() {}
 

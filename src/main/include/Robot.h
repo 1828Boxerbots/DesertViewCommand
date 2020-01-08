@@ -7,20 +7,30 @@
 
 #pragma once
 
-#include <string>
-#include <frc/IterativeRobot.h>
+#include <frc/TimedRobot.h>
+#include <frc/commands/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
-#include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/Spark.h>
-#include <frc/XboxController.h>
-#include <frc/Encoder.h>
-#include <frc/Compressor.h>
 
+#include "OI.h"
 
-class Robot : public frc::IterativeRobot {
+#include "commands/DriveTrainCMD.h"
+
+#include "subsystems/DriveTrain.h"
+
+using namespace frc;
+using namespace std;
+
+class Robot : public frc::TimedRobot {
  public:
+
+  static OI m_oi;
+
+  static std::shared_ptr <DriveTrain> m_driveTrain;
+
   void RobotInit() override;
   void RobotPeriodic() override;
+  void DisabledInit() override;
+  void DisabledPeriodic() override;
   void AutonomousInit() override;
   void AutonomousPeriodic() override;
   void TeleopInit() override;
@@ -28,41 +38,9 @@ class Robot : public frc::IterativeRobot {
   void TestPeriodic() override;
 
  private:
-    //robotmap
-        //setting DIO ports
-            //left encoders
-                const int LEFTCHANELA = 0;
-                const int LEFTCHANELB = 1;
-            //right encoder
-                const int RIGHTCHANELA = 2;
-                const int RIGHTCHANELB = 3;
-        //setting pwm ports
-            //setting the pwm ports for the spark controllers(each two motor on both side are y split)
-                const int PWMLEFTMOTOR = 2;
-                const int PWMRIGHTMOTRS = 1;
-        //setting USB ports
-            //setting the USB ports for the controller
-                const int USBXBOXCONTROLLER = 0;
-        //setting the PCM ports
+  // Have it null by default so that if testing teleop it
+  // doesn't have undefined behavior and potentially crash.
+  frc::SendableChooser<frc::Command*> m_chooser;
 
-                const int PCMCOMPRESSOR = 0;
-
-    //setting the encoder types
-        frc::Encoder m_leftEncoder{LEFTCHANELA,LEFTCHANELB,false,frc::CounterBase::k4X};
-        frc::Encoder m_rightEncoder{RIGHTCHANELA,RIGHTCHANELB,true,frc::CounterBase::k4X};
-    
-
-    /*using the spark constructer to create a spark controller for the y split motors on the left side
-    (if your using a motor controller that isn't spark, for example talons, us the coraspoing liberay for that class)*/
-        frc::Spark m_left{PWMLEFTMOTOR};
-
-    /*using the spark constructer to create a spark controller for the y split motors on the left side
-    (if your using a motor controller that isn't spark, for example talons, us the coraspoing liberay for that class)*/
-        frc::Spark m_right{PWMRIGHTMOTRS};
-
-    // Createing a object for the controller( using xbox controller here, but if you going to use a joystick)
-        frc::XboxController m_controller{USBXBOXCONTROLLER};
-
-        frc::Compressor m_compressor{PCMCOMPRESSOR};
- 
+  DriveTrainCMD m_driveTrainCMD;
 };

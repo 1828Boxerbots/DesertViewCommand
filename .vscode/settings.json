@@ -8,10 +8,10 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "bin/": true,
-    ".classpath": true,
-    ".project": true
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
   },
-  "files.associations": {
-    "*.inc": "cpp"
-  }
+  "C_Cpp.default.configurationProvider": "vscode-wpilib"
 }
