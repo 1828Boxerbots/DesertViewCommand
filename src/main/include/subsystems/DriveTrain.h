@@ -11,25 +11,30 @@
 #include <frc/Spark.h>
 #include <frc/XboxController.h>
 #include <frc/ADXRS450_Gyro.h>
-#include "RobotMap.h"
 #include <frc/AnalogInput.h>
+#include <frc/DigitalInput.h>
+#include <frc/Counter.h>
+#include "RobotMap.h"
+
 
 using namespace frc;
 
 class DriveTrain : public frc::Subsystem {
  private:
-
+  Counter* counter;
   Spark m_leftMotor  {LEFTDRIVE };
   Spark m_rightMotor {RIGHTDRIVE};
-
   ADXRS450_Gyro m_gyro {SPI::Port::kOnboardCS0};
   AnalogInput m_US {ULTRASONIC};
+  DigitalInput m_Lidar {LIDAR};
 
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
 
  public:
   DriveTrain();
+  void LidarInit();
+  double GetDistance();
   void InitDefaultCommand() override;
   void TeleopDrive(XboxController* controller);
   void StopDriveMotors();

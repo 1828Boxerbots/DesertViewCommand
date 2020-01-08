@@ -11,6 +11,9 @@
 constexpr int RIGHTDRIVE = 1;
 constexpr int LEFTDRIVE = 2;
 
+//DIO
+constexpr int LIDAR = 7;
+
 //USB
 constexpr int XBOXCONTROLLER_USB = 0;
 

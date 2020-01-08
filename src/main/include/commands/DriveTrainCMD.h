@@ -11,6 +11,8 @@
 
 class DriveTrainCMD : public frc::Command {
  public:
+  int Count = 0;
+  int CountTwo = 0;
   DriveTrainCMD();
   void Initialize() override;
   void Execute() override;

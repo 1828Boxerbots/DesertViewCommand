@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/DriveTrainCMD.h"
 #include "Robot.h"
 
@@ -18,13 +19,17 @@ DriveTrainCMD::DriveTrainCMD()
 // Called just before this Command runs the first time
 void DriveTrainCMD::Initialize() 
 {
+  SmartDashboard::PutNumber("Beat2", CountTwo++);
+  Robot::m_driveTrain->LidarInit();
   Robot::m_driveTrain->StopDriveMotors();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveTrainCMD::Execute() 
 {
+  SmartDashboard::PutNumber("beat", Count++);
   Robot::m_driveTrain->TeleopDrive(Robot::m_oi.GetController());
+  Robot::m_driveTrain->GetDistance();
 }
 
 // Make this return true when this Command no longer needs to run execute()

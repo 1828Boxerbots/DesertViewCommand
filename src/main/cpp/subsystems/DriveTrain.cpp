@@ -12,6 +12,26 @@ using namespace frc;
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain") {}
 
+double DriveTrain::GetDistance()
+{
+  double centimeters = (counter->GetPeriod() * 100000.0 / 10.0);
+  SmartDashboard::PutNumber("Lidar Value", centimeters );
+  SmartDashboard::PutNumber("Raw (Get) Lidar Value", counter->Get());;;
+  SmartDashboard::PutNumber("Raw (GetPeriod) Lidar Value", counter->GetPeriod());;;
+  if (counter->Get() >= 1)
+  {
+    return centimeters;
+  }
+}
+
+void DriveTrain::LidarInit()
+{
+  counter = new Counter(LIDAR);
+  counter->SetMaxPeriod(1.0);
+  counter->SetSemiPeriodMode(true);
+  counter->Reset();
+}
+
 void DriveTrain::TeleopDrive(XboxController* controller)
 {
   double rightY = controller->GetY(frc::GenericHID::kRightHand);
@@ -31,8 +51,6 @@ void DriveTrain::TeleopDrive(XboxController* controller)
   const int calibration = 3;
   double distance = ultraValue * voltToMeter * calibration;
   SmartDashboard::PutNumber("Ultrasonic Distance", distance);
-
-  
 }
 
 void DriveTrain::StopDriveMotors()
