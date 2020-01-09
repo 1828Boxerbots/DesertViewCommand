@@ -8,12 +8,11 @@
 #pragma once
 #include <frc/XboxController.h>
 #include "RobotMap.h"
-
 using namespace frc;
 
 class OI {
- private:
- XboxController controller {XBOXCONTROLLER_USB};
+  private:
+  XboxController m_XboxController {XBOXCONTROLLER_USB};
  public:
   XboxController* GetController();
   OI();

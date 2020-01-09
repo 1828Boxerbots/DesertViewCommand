@@ -12,17 +12,13 @@
 #include <frc/smartdashboard/SendableChooser.h>
 
 #include "OI.h"
-
 #include "commands/DriveTrainCMD.h"
+
 
 #include "subsystems/DriveTrain.h"
 
-using namespace frc;
-using namespace std;
-
 class Robot : public frc::TimedRobot {
  public:
-
   static OI m_oi;
 
   static std::shared_ptr <DriveTrain> m_driveTrain;
@@ -40,6 +36,7 @@ class Robot : public frc::TimedRobot {
  private:
   // Have it null by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
+  frc::Command* m_autonomousCommand = nullptr;
   frc::SendableChooser<frc::Command*> m_chooser;
 
   DriveTrainCMD m_driveTrainCMD;

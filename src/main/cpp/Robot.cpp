@@ -11,11 +11,11 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 std::shared_ptr <DriveTrain> Robot::m_driveTrain = std::make_shared<DriveTrain>();
-
 OI Robot::m_oi;
 
-void Robot::RobotInit() {
- frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+void Robot::RobotInit() 
+{
+ 
 }
 
 /**
@@ -26,9 +26,8 @@ void Robot::RobotInit() {
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() 
-{
-
+void Robot::RobotPeriodic() {
+  
 }
 
 /**
@@ -36,10 +35,7 @@ void Robot::RobotPeriodic()
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.
  */
-void Robot::DisabledInit() 
-{
-
-}
+void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 
@@ -62,6 +58,12 @@ void Robot::AutonomousInit() {
   // } else {
   //   m_autonomousCommand = &m_defaultAuto;
   // }
+
+  m_autonomousCommand = m_chooser.GetSelected();
+
+  if (m_autonomousCommand != nullptr) {
+    m_autonomousCommand->Start();
+  }
 }
 
 void Robot::AutonomousPeriodic() { frc::Scheduler::GetInstance()->Run(); }

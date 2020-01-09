@@ -7,11 +7,13 @@
 
 #include "OI.h"
 
+#include <frc/WPILib.h>
+
 XboxController* OI::GetController()
 {
-  return &controller;
+  return &m_XboxController;
 }
-
-OI::OI() {
+OI::OI()
+{
   // Process operator interface input here.
 }
