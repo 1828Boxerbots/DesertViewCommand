@@ -12,7 +12,7 @@
 #include <frc/XboxController.h>
 #include <frc/ADXRS450_Gyro.h>
 #include <frc/AnalogInput.h>
-#include <frc/DigitalInput.h>
+#include <frc/PWM.h>
 #include <frc/Counter.h>
 #include "RobotMap.h"
 
@@ -26,7 +26,7 @@ class DriveTrain : public frc::Subsystem {
   Spark m_rightMotor {RIGHTDRIVE};
   ADXRS450_Gyro m_gyro {SPI::Port::kOnboardCS0};
   AnalogInput m_US {ULTRASONIC};
-  DigitalInput m_Lidar {LIDAR};
+  PWM m_Lidar {LIDAR};
 
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
