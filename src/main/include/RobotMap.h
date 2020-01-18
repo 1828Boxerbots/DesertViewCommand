@@ -13,9 +13,16 @@ constexpr int LEFTDRIVE = 2;
 
 //DIO
 constexpr int LIDAR = 7;
+constexpr int LIMIT = 8;
 
 //USB
 constexpr int XBOXCONTROLLER_USB = 0;
 
 //ANALOG
 constexpr int ULTRASONIC = 3;
+
+//RELAY
+constexpr int SPIKE = 0;
+
+
+

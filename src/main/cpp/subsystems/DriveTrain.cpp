@@ -7,6 +7,7 @@
 
 #include "subsystems/DriveTrain.h"
 #include <frc/SmartDashboard/SmartDashboard.h>
+#include <frc/DriverStation.h>
 
 using namespace frc;
 
@@ -51,6 +52,39 @@ void DriveTrain::TeleopDrive(XboxController* controller)
   const int calibration = 3;
   double distance = ultraValue * voltToMeter * calibration;
   SmartDashboard::PutNumber("Ultrasonic Distance", distance);
+
+  bool limitSwitchValue = !(m_limitSwitch.Get());
+  SmartDashboard::PutBoolean("Limit Switch Pressed", limitSwitchValue);
+  if (limitSwitchValue)
+  {
+    const wpi::Twine error = "I lost the game";
+    DriverStation::ReportError(error);
+  }
+
+
+  double temperature = m_imu.GetTemperature();
+  double pressure = m_imu.GetBarometricPressure();
+  double xangle = m_imu.GetGyroAngleX();
+  double yangle = m_imu.GetGyroAngleY();
+  double zangle = m_imu.GetGyroAngleZ();
+  double accelx = m_imu.GetAccelInstantX();
+  double accely = m_imu.GetAccelInstantY();
+  double accelz = m_imu.GetAccelInstantZ();
+  double magx = m_imu.GetMagInstantX();
+  double magy = m_imu.GetMagInstantY();
+  double magz = m_imu.GetMagInstantZ();
+ SmartDashboard::PutNumber("Temp CELSIUS", temperature);
+ SmartDashboard::PutNumber("Pressure MBAR", pressure);
+ SmartDashboard::PutNumber("XAngle Degrees", xangle);
+ SmartDashboard::PutNumber("YAngle Degrees", yangle);
+ SmartDashboard::PutNumber("ZAngle Degrees", zangle);
+ SmartDashboard::PutNumber("Accelerometer X", accelx);
+ SmartDashboard::PutNumber("Accelerometer Y", accely);
+ SmartDashboard::PutNumber("Accelerometer Z", accelz);
+ SmartDashboard::PutNumber("Magnetometer X", magx);
+ SmartDashboard::PutNumber("Magnetometer Y", magy);
+ SmartDashboard::PutNumber("Magnetometer Z", magz);
+
 }
 
 void DriveTrain::StopDriveMotors()
@@ -64,6 +98,18 @@ void DriveTrain::InitDefaultCommand()
   // Set the default command for a subsystem here.
   // SetDefaultCommand(new MySpecialCommand());
 }
+
+void DriveTrain::TurnSpikeOn()
+{
+  m_spike.Set(Relay::kForward);
+}
+
+
+void DriveTrain::TurnSpikeOff()
+{
+  m_spike.Set(Relay::kOff);
+}
+
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.

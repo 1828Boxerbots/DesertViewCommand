@@ -12,9 +12,12 @@
 #include <frc/XboxController.h>
 #include <frc/ADXRS450_Gyro.h>
 #include <frc/AnalogInput.h>
+#include <frc/DigitalInput.h>
 #include <frc/PWM.h>
 #include <frc/Counter.h>
+#include <frc/Relay.h>
 #include "RobotMap.h"
+#include <adi/ADIS16448_IMU.h>
 
 
 using namespace frc;
@@ -27,6 +30,9 @@ class DriveTrain : public frc::Subsystem {
   ADXRS450_Gyro m_gyro {SPI::Port::kOnboardCS0};
   AnalogInput m_US {ULTRASONIC};
   PWM m_Lidar {LIDAR};
+  Relay m_spike {SPIKE};
+  DigitalInput m_limitSwitch {LIMIT};
+  ADIS16448_IMU m_imu {};
 
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
@@ -38,4 +44,6 @@ class DriveTrain : public frc::Subsystem {
   void InitDefaultCommand() override;
   void TeleopDrive(XboxController* controller);
   void StopDriveMotors();
+  void TurnSpikeOn();
+  void TurnSpikeOff();
 };
