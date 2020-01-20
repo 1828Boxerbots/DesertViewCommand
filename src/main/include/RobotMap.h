@@ -8,21 +8,23 @@
 #pragma once
 
 //PWM
-constexpr int RIGHTDRIVE = 1;
-constexpr int LEFTDRIVE = 2;
+constexpr int RIGHTDRIVE          = 1 ;
+constexpr int LEFTDRIVE           = 2 ;
 
 //DIO
-constexpr int LIDAR = 7;
-constexpr int LIMIT = 8;
+constexpr int LIDAR               = 7 ;
+constexpr int LIMIT               = 10;
 
 //USB
-constexpr int XBOXCONTROLLER_USB = 0;
+constexpr int XBOXCONTROLLER_USB  = 0 ;
 
 //ANALOG
-constexpr int ULTRASONIC = 3;
+constexpr int ULTRASONIC_LONG     = 4 ;
+constexpr int ULTRASONIC_SHORT    = 5 ;
+constexpr int ULTRASONIC_PWMWIRES = 6 ;
 
 //RELAY
-constexpr int SPIKE = 0;
+constexpr int SPIKE               = 0 ; 
 
 
 

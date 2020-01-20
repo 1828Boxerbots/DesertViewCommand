@@ -46,22 +46,47 @@ void DriveTrain::TeleopDrive(XboxController* controller)
   double angleOof = m_gyro.GetAngle();
   SmartDashboard::PutNumber("Don't break please", angleOof);
 
-  double ultraValue = m_US.GetVoltage();
-  SmartDashboard::PutNumber("Ultrasonic Value", ultraValue);
+
   const double voltToMeter = (4.885/5);
-  const int calibration = 3;
-  double distance = ultraValue * voltToMeter * calibration;
-  SmartDashboard::PutNumber("Ultrasonic Distance", distance);
+  // A meter is 39.37 inches: Use this to ensure you are measuring proper distance.
+  const double calibrationL = 3.0;
+  const double calibrationS = 1.2;
+  const double calibrationP = 1.15;
+
+
+  double ultraValueL = m_USL.GetVoltage();
+  SmartDashboard::PutNumber("Ultrasonic Long Voltage", ultraValueL);
+  double distanceL = ultraValueL * voltToMeter * calibrationL;
+  SmartDashboard::PutNumber("Ultrasonic Long Distance M", distanceL);
+
+
+  double ultraValueS = m_USS.GetVoltage();
+  SmartDashboard::PutNumber("Ultrasonic Short Voltage", ultraValueS);
+  double distanceS = ultraValueS * voltToMeter * calibrationS;
+  SmartDashboard::PutNumber("Ultrasonic Short Distance M", distanceS);
+
+
+  double ultraValueP = m_USP.GetVoltage();
+  SmartDashboard::PutNumber("Ultrasonic PWM Wired Voltage", ultraValueP);
+  double distanceP = ultraValueP * voltToMeter * calibrationP;
+  SmartDashboard::PutNumber("Ultrasonic PWM Wired Distance M", distanceP);
+
 
   bool limitSwitchValue = !(m_limitSwitch.Get());
   SmartDashboard::PutBoolean("Limit Switch Pressed", limitSwitchValue);
+
   if (limitSwitchValue)
   {
     const wpi::Twine error = "I lost the game";
     DriverStation::ReportError(error);
+    TurnSpikeOn();
+  }
+  else
+  {
+    TurnSpikeOff();
   }
 
-
+  /*
   double temperature = m_imu.GetTemperature();
   double pressure = m_imu.GetBarometricPressure();
   double xangle = m_imu.GetGyroAngleX();
@@ -84,7 +109,7 @@ void DriveTrain::TeleopDrive(XboxController* controller)
  SmartDashboard::PutNumber("Magnetometer X", magx);
  SmartDashboard::PutNumber("Magnetometer Y", magy);
  SmartDashboard::PutNumber("Magnetometer Z", magz);
-
+ */
 }
 
 void DriveTrain::StopDriveMotors()

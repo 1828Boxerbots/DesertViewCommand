@@ -72,7 +72,7 @@ void Robot::TeleopInit() {
   // continue until interrupted by another command, remove
   // this line or comment it out.
   m_driveTrainCMD.Start();
-  m_driveTrain->TurnSpikeOn();
+  //m_driveTrain->TurnSpikeOn();
 }
 
 void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run(); }

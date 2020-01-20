@@ -17,33 +17,35 @@
 #include <frc/Counter.h>
 #include <frc/Relay.h>
 #include "RobotMap.h"
-#include <adi/ADIS16448_IMU.h>
+//#include <adi/ADIS16448_IMU.h>
 
 
 using namespace frc;
 
 class DriveTrain : public frc::Subsystem {
  private:
-  Counter* counter;
-  Spark m_leftMotor  {LEFTDRIVE };
-  Spark m_rightMotor {RIGHTDRIVE};
-  ADXRS450_Gyro m_gyro {SPI::Port::kOnboardCS0};
-  AnalogInput m_US {ULTRASONIC};
-  PWM m_Lidar {LIDAR};
-  Relay m_spike {SPIKE};
-  DigitalInput m_limitSwitch {LIMIT};
-  ADIS16448_IMU m_imu {};
+  Counter*      counter                               ;
+  Spark         m_leftMotor   {LEFTDRIVE             };
+  Spark         m_rightMotor  {RIGHTDRIVE            };
+  ADXRS450_Gyro m_gyro        {SPI::Port::kOnboardCS0};
+  AnalogInput   m_USL         {ULTRASONIC_LONG       };
+  AnalogInput   m_USS         {ULTRASONIC_SHORT      };
+  AnalogInput   m_USP         {ULTRASONIC_PWMWIRES   };
+  PWM           m_Lidar       {LIDAR                 };
+  Relay         m_spike       {SPIKE                 };
+  DigitalInput  m_limitSwitch {LIMIT                 };
+  //ADIS16448_IMU m_imu {};
 
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
 
  public:
-  DriveTrain();
-  void LidarInit();
-  double GetDistance();
-  void InitDefaultCommand() override;
-  void TeleopDrive(XboxController* controller);
-  void StopDriveMotors();
-  void TurnSpikeOn();
-  void TurnSpikeOff();
+         DriveTrain()                           ;
+  void   LidarInit()                            ;
+  double GetDistance()                          ;
+  void   InitDefaultCommand() override          ;
+  void   TeleopDrive(XboxController* controller);
+  void   StopDriveMotors()                      ;
+  void   TurnSpikeOn()                          ;
+  void   TurnSpikeOff()                         ;
 };
