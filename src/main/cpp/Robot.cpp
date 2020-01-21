@@ -11,6 +11,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 std::shared_ptr <DriveTrain> Robot::m_driveTrain = std::make_shared<DriveTrain>();
+std::shared_ptr <LidarSubsystem> Robot::m_lidar = std::make_shared<LidarSubsystem>();
 
 OI Robot::m_oi;
 
@@ -72,6 +73,7 @@ void Robot::TeleopInit() {
   // continue until interrupted by another command, remove
   // this line or comment it out.
   m_driveTrainCMD.Start();
+  m_lidarCMD.Start();
   //m_driveTrain->TurnSpikeOn();
 }
 

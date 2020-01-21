@@ -14,8 +14,10 @@
 #include "OI.h"
 
 #include "commands/DriveTrainCMD.h"
+#include "commands/Lidar.h"
 
 #include "subsystems/DriveTrain.h"
+#include "subsystems/LidarSubsystem.h"
 
 using namespace frc;
 using namespace std;
@@ -26,6 +28,7 @@ class Robot : public frc::TimedRobot {
   static OI m_oi;
 
   static std::shared_ptr <DriveTrain> m_driveTrain;
+  static std::shared_ptr <LidarSubsystem> m_lidar;
 
   void RobotInit() override;
   void RobotPeriodic() override;
@@ -43,4 +46,5 @@ class Robot : public frc::TimedRobot {
   frc::SendableChooser<frc::Command*> m_chooser;
 
   DriveTrainCMD m_driveTrainCMD;
+  Lidar m_lidarCMD;
 };
