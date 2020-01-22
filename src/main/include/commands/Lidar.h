@@ -11,6 +11,7 @@
 
 class Lidar : public frc::Command {
  public:
+  int isloop = 0;
   Lidar();
   void Initialize() override;
   void Execute() override;

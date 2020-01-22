@@ -28,10 +28,12 @@ void LidarSubsystem::Init()
 
 int LidarSubsystem::GetDistance() 
 {
+    Init();
+
     uint8_t val;
     while(m_device.Read(STATUS, 1, &val) == false) 
     {
-        if (val & 0x1 == 0)
+        if ((val & 0x1) == 0)
         {
             break;
         }
@@ -41,7 +43,7 @@ int LidarSubsystem::GetDistance()
     uint8_t low;
     m_device.Read(FULL_DELAY_HIGH, 1, &high);
     m_device.Read(FULL_DELAY_LOW , 1, &low );
-    uint16_t centimeters = high << 8 | low;
+    uint16_t centimeters = (high << 8) | low;
 
     SmartDashboard::PutNumber("Lidar Distance", (int)centimeters);
 

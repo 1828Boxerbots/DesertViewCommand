@@ -14,8 +14,8 @@ class LidarSubsystem : public frc::Subsystem {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-  frc::I2C m_device {frc::I2C::Port::kOnboard, LIDAR_ADDRESS};
   const int LIDAR_ADDRESS = 0x62;
+  frc::I2C m_device {frc::I2C::Port::kOnboard, LIDAR_ADDRESS};
   const int ACQ_COMMAND = 0x00;
   const int ACQ_CONFIG_REG = 0x04;
   const int STATUS = 0x01;

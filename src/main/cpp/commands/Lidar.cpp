@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/Lidar.h"
 #include "Robot.h"
 
@@ -23,7 +24,9 @@ void Lidar::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void Lidar::Execute() 
 {
+  SmartDashboard::PutNumber("Loop", isloop++);
   Robot::m_lidar->GetDistance();
+  //SmartDashboard::PutNumber("Lidar Distance", Robot::m_lidar->GetDistance());
 }
 
 // Make this return true when this Command no longer needs to run execute()
