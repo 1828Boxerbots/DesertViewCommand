@@ -118,11 +118,9 @@ void DriveTrain::StopDriveMotors()
   m_rightMotor.Set(0.0);
 }
 
-void DriveTrain::InitDefaultCommand() 
-{
-  // Set the default command for a subsystem here.
-  // SetDefaultCommand(new MySpecialCommand());
-}
+
+void DriveTrain::InitDefaultCommand() {}
+
 
 void DriveTrain::TurnSpikeOn()
 {
@@ -133,6 +131,47 @@ void DriveTrain::TurnSpikeOn()
 void DriveTrain::TurnSpikeOff()
 {
   m_spike.Set(Relay::kOff);
+}
+
+
+void DriveTrain::DistanceSensorInit()
+{
+  m_distSensor.SetAutomaticMode(true);
+  m_distSensor.SetEnabled(true);
+}
+
+
+void DriveTrain::DistanceSensorTeleop()
+{
+  bool isValid = m_distSensor.IsRangeValid();
+
+  frc::SmartDashboard::PutBoolean("Data Valid", isValid);
+
+  if(isValid) 
+  {
+  /**
+   * The current measured range is returned from GetRange(). By default
+   * this range is returned in inches.
+   */
+  frc::SmartDashboard::PutNumber("Distance (in)", m_distSensor.GetRange());
+
+  /**
+   * The timestamp of the last valid measurement (measured in seconds since 
+   * the program started), is returned by GetTimestamp().
+   */
+  frc::SmartDashboard::PutNumber("Timestamp", m_distSensor.GetTimestamp());
+  }
+  else 
+  {
+  frc::SmartDashboard::PutNumber("Distance (in)", -1);
+  }
+}
+
+
+void DriveTrain::DistanceSensorDisabled()
+{
+  m_distSensor.SetAutomaticMode(false);
+  m_distSensor.SetEnabled(false);
 }
 
 

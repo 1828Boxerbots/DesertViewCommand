@@ -17,23 +17,26 @@
 #include <frc/Counter.h>
 #include <frc/Relay.h>
 #include "RobotMap.h"
+#include "rev/Rev2mDistanceSensor.h"
 //#include <adi/ADIS16448_IMU.h>
 
 
 using namespace frc;
+using namespace rev;
 
 class DriveTrain : public frc::Subsystem {
  private:
-  Counter*      counter                               ;
-  Spark         m_leftMotor   {LEFTDRIVE             };
-  Spark         m_rightMotor  {RIGHTDRIVE            };
-  ADXRS450_Gyro m_gyro        {SPI::Port::kOnboardCS0};
-  AnalogInput   m_USL         {ULTRASONIC_LONG       };
-  AnalogInput   m_USS         {ULTRASONIC_SHORT      };
-  AnalogInput   m_USP         {ULTRASONIC_PWMWIRES   };
-  PWM           m_Lidar       {LIDAR                 };
-  Relay         m_spike       {SPIKE                 };
-  DigitalInput  m_limitSwitch {LIMIT                 };
+  Counter*            counter                                                                                        ;
+  Spark               m_leftMotor   {LEFTDRIVE                                                                      };
+  Spark               m_rightMotor  {RIGHTDRIVE                                                                     };
+  ADXRS450_Gyro       m_gyro        {SPI::Port::kOnboardCS0                                                         };
+  AnalogInput         m_USL         {ULTRASONIC_LONG                                                                };
+  AnalogInput         m_USS         {ULTRASONIC_SHORT                                                               };
+  AnalogInput         m_USP         {ULTRASONIC_PWMWIRES                                                            };
+  PWM                 m_Lidar       {LIDAR                                                                          };
+  Relay               m_spike       {SPIKE                                                                          };
+  DigitalInput        m_limitSwitch {LIMIT                                                                          };
+  Rev2mDistanceSensor m_distSensor  {Rev2mDistanceSensor::Port::kOnboard, Rev2mDistanceSensor::DistanceUnit::kInches};
   //ADIS16448_IMU m_imu {};
 
   // It's desirable that everything possible under private except
@@ -48,4 +51,7 @@ class DriveTrain : public frc::Subsystem {
   void   StopDriveMotors()                      ;
   void   TurnSpikeOn()                          ;
   void   TurnSpikeOff()                         ;
+  void   DistanceSensorInit()                   ;
+  void   DistanceSensorDisabled()               ;
+  void   DistanceSensorTeleop()                 ;
 };

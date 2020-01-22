@@ -40,6 +40,7 @@ void Robot::RobotPeriodic()
 void Robot::DisabledInit() 
 {
   m_driveTrain->TurnSpikeOff();
+  m_driveTrain->DistanceSensorDisabled();
 }
 
 void Robot::DisabledPeriodic() { frc::Scheduler::GetInstance()->Run(); }
@@ -73,11 +74,16 @@ void Robot::TeleopInit() {
   // continue until interrupted by another command, remove
   // this line or comment it out.
   m_driveTrainCMD.Start();
+  m_driveTrain->DistanceSensorInit();
   m_lidarCMD.Start();
   //m_driveTrain->TurnSpikeOn();
 }
 
-void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run(); }
+void Robot::TeleopPeriodic() 
+{ 
+  m_driveTrain->DistanceSensorTeleop();
+  frc::Scheduler::GetInstance()->Run(); 
+}
 
 void Robot::TestPeriodic() {}
 
