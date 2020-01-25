@@ -19,6 +19,8 @@
 #include "subsystems/DriveTrain.h"
 #include "subsystems/LidarSubsystem.h"
 
+#include "rev/Rev2mDistanceSensor.h"
+
 using namespace frc;
 using namespace std;
 
@@ -47,4 +49,5 @@ class Robot : public frc::TimedRobot {
 
   DriveTrainCMD m_driveTrainCMD;
   Lidar m_lidarCMD;
+  rev::Rev2mDistanceSensor *m_pDistSensor;
 };

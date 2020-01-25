@@ -10,6 +10,7 @@
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+
 std::shared_ptr <DriveTrain> Robot::m_driveTrain = std::make_shared<DriveTrain>();
 std::shared_ptr <LidarSubsystem> Robot::m_lidar = std::make_shared<LidarSubsystem>();
 
@@ -17,6 +18,9 @@ OI Robot::m_oi;
 
 void Robot::RobotInit() {
  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+
+ m_pDistSensor = new rev::Rev2mDistanceSensor {rev::Rev2mDistanceSensor::Port::kOnboard, 
+                                              rev::Rev2mDistanceSensor::DistanceUnit::kInches};
 }
 
 /**
@@ -40,7 +44,8 @@ void Robot::RobotPeriodic()
 void Robot::DisabledInit() 
 {
   m_driveTrain->TurnSpikeOff();
-  m_driveTrain->DistanceSensorDisabled();
+  m_pDistSensor->SetAutomaticMode(false);
+  m_pDistSensor->SetEnabled(false);
 }
 
 void Robot::DisabledPeriodic() { frc::Scheduler::GetInstance()->Run(); }
@@ -73,16 +78,44 @@ void Robot::TeleopInit() {
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
   // this line or comment it out.
+
   m_driveTrainCMD.Start();
-  m_driveTrain->DistanceSensorInit();
   m_lidarCMD.Start();
+
+  m_pDistSensor->SetAutomaticMode(true);
+  m_pDistSensor->SetEnabled(true);
+  //m_driveTrain->DistanceSensorInit();
   //m_driveTrain->TurnSpikeOn();
 }
 
 void Robot::TeleopPeriodic() 
 { 
-  m_driveTrain->DistanceSensorTeleop();
   frc::Scheduler::GetInstance()->Run(); 
+
+    /**
+   * The current measurement is considered valid if IsRangeValid()
+   * returns true.
+   */
+  bool isValid = m_pDistSensor->IsRangeValid();
+
+  frc::SmartDashboard::PutBoolean("Data Valid", isValid);
+
+  if(isValid) {
+    /**
+     * The current measured range is returned from GetRange(). By default
+     * this range is returned in inches.
+     */
+    frc::SmartDashboard::PutNumber("Distance (in)", m_pDistSensor->GetRange());
+
+    /**
+     * The timestamp of the last valid measurement (measured in seconds since 
+     * the program started), is returned by GetTimestamp().
+     */
+    frc::SmartDashboard::PutNumber("Timestamp", m_pDistSensor->GetTimestamp());
+  }
+  else {
+    frc::SmartDashboard::PutNumber("Distance (in)", -1);
+  }
 }
 
 void Robot::TestPeriodic() {}
