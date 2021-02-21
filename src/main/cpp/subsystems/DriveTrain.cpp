@@ -15,22 +15,22 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain") {}
 
 double DriveTrain::GetDistance()
 {
-  double centimeters = (counter->GetPeriod() * 100000.0 / 10.0);
-  SmartDashboard::PutNumber("Lidar Value", centimeters );
-  SmartDashboard::PutNumber("Raw (Get) Lidar Value", counter->Get());;;
-  SmartDashboard::PutNumber("Raw (GetPeriod) Lidar Value", counter->GetPeriod());;;
-  if (counter->Get() >= 1)
-  {
-    return centimeters;
-  }
+  return m_distSensor.GetRange();
 }
 
-void DriveTrain::LidarInit()
+
+void DriveTrain::DriveTrainInit()
 {
-  counter = new Counter(LIDAR);
-  counter->SetMaxPeriod(1.0);
-  counter->SetSemiPeriodMode(true);
-  counter->Reset();
+  m_leftMotor.Set(0.0);
+  m_rightMotor.Set(0.0);
+  m_distSensor.DistInit();
+}
+
+void DriveTrain::DriveTrainEnd()
+{
+  m_leftMotor.Set(0.0);
+  m_rightMotor.Set(0.0);
+  m_distSensor.Disabled();
 }
 
 void DriveTrain::TeleopDrive(XboxController* controller)
@@ -110,12 +110,6 @@ void DriveTrain::TeleopDrive(XboxController* controller)
  SmartDashboard::PutNumber("Magnetometer Y", magy);
  SmartDashboard::PutNumber("Magnetometer Z", magz);
  */
-}
-
-void DriveTrain::StopDriveMotors()
-{
-  m_leftMotor.Set(0.0);
-  m_rightMotor.Set(0.0);
 }
 
 

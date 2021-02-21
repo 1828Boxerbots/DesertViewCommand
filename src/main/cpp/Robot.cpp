@@ -18,9 +18,6 @@ OI Robot::m_oi;
 
 void Robot::RobotInit() {
  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-
- m_pDistSensor = new rev::Rev2mDistanceSensor {rev::Rev2mDistanceSensor::Port::kOnboard, 
-                                              rev::Rev2mDistanceSensor::DistanceUnit::kInches};
 }
 
 /**
@@ -41,12 +38,7 @@ void Robot::RobotPeriodic()
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.
  */
-void Robot::DisabledInit() 
-{
-  m_driveTrain->TurnSpikeOff();
-  m_pDistSensor->SetAutomaticMode(false);
-  m_pDistSensor->SetEnabled(false);
-}
+void Robot::DisabledInit() {}
 
 void Robot::DisabledPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 
@@ -82,40 +74,13 @@ void Robot::TeleopInit() {
   m_driveTrainCMD.Start();
   m_lidarCMD.Start();
 
-  m_pDistSensor->SetAutomaticMode(true);
-  m_pDistSensor->SetEnabled(true);
-  //m_driveTrain->DistanceSensorInit();
   //m_driveTrain->TurnSpikeOn();
 }
 
 void Robot::TeleopPeriodic() 
-{ 
-  frc::Scheduler::GetInstance()->Run(); 
-
-    /**
-   * The current measurement is considered valid if IsRangeValid()
-   * returns true.
-   */
-  bool isValid = m_pDistSensor->IsRangeValid();
-
-  frc::SmartDashboard::PutBoolean("Data Valid", isValid);
-
-  if(isValid) {
-    /**
-     * The current measured range is returned from GetRange(). By default
-     * this range is returned in inches.
-     */
-    frc::SmartDashboard::PutNumber("Distance (in)", m_pDistSensor->GetRange());
-
-    /**
-     * The timestamp of the last valid measurement (measured in seconds since 
-     * the program started), is returned by GetTimestamp().
-     */
-    frc::SmartDashboard::PutNumber("Timestamp", m_pDistSensor->GetTimestamp());
-  }
-  else {
-    frc::SmartDashboard::PutNumber("Distance (in)", -1);
-  }
+{
+  frc::Scheduler::GetInstance()->Run();
+  m_driveTrain->GetDistance();
 }
 
 void Robot::TestPeriodic() {}

@@ -19,17 +19,17 @@ DriveTrainCMD::DriveTrainCMD()
 // Called just before this Command runs the first time
 void DriveTrainCMD::Initialize() 
 {
-  SmartDashboard::PutNumber("Beat2", CountTwo++);
-  Robot::m_driveTrain->LidarInit();
-  Robot::m_driveTrain->StopDriveMotors();
+  Robot::m_driveTrain->DriveTrainInit();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveTrainCMD::Execute() 
 {
+  if (m_running) return;
+  m_running = true;
   SmartDashboard::PutNumber("beat", Count++);
   Robot::m_driveTrain->TeleopDrive(Robot::m_oi.GetController());
-  Robot::m_driveTrain->GetDistance();
+  m_running = false;
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -41,7 +41,7 @@ bool DriveTrainCMD::IsFinished()
 // Called once after isFinished returns true
 void DriveTrainCMD::End() 
 {
-  Robot::m_driveTrain->StopDriveMotors();
+  Robot::m_driveTrain->DriveTrainEnd();
 }
 
 // Called when another command which requires one or more of the same
